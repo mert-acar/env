@@ -1,0 +1,12 @@
+# This is the configuration file for Ghostty.
+
+# font-family = Iosevka
+# window-padding-x = 2
+# background = #123abc
+
+# # Empty values are used to reset config keys to default.
+# key =
+
+font-size=10
+mouse-hide-while-typing = true
+keybind = ctrl+enter=unbind

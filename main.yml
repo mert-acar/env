@@ -13,6 +13,8 @@
   roles:
     - role: macos
       when: is_macos
+      tags: macos
     - role: ubuntu
       when: is_ubuntu
+      tags: ubuntu
     - role: common  # Shared configurations (neovim, tmux, yapf)

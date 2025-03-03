@@ -1,11 +1,24 @@
 ---
-- name: install tmux 
+- name: clone or update tmux
   tags: tmux
-  community.general.homebrew:
-    name: tmux
-    update_homebrew: true
-    state: present
-    install_options: ["formula"]
+  git:
+    repo: https://github.com/tmux/tmux.git
+    dest: "{{ lookup('env', 'HOME') }}/personal/tmux"
+    single_branch: yes
+    version: 3.5
+    update: yes
+    force: no
+
+- name: run autogen.sh
+  tags: tmux
+  shell: "sh autogen.sh && ./configure"
+  args:
+    chdir: "{{ lookup('env', 'HOME') }}/personal/tmux" 
+
+- name: make tmux
+  tags: tmux
+  make:
+    chdir: "{{ lookup('env', 'HOME') }}/personal/tmux" 
 
 - name: install tmux plugin manager (tpm)
   tags: tmux

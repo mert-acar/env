@@ -51,3 +51,7 @@
   include_tasks: black.yml
   tags: 'black'
 
+- name: Include ghostty setup tasks
+  include_tasks: ghostty.yml
+  tags: ['ghostty', 'ghostty_config']
+
