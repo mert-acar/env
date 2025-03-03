@@ -1,0 +1,16 @@
+---
+common_packages:
+  - curl
+  - gettext
+  - cmake
+  - git
+  - ninja
+  - automake
+  - autoconf
+  - btop
+  - zsh
+  - eza
+  - zoxide
+  - fzf
+  - bat
+  - black

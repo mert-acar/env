@@ -1,0 +1,40 @@
+---
+- name: clone or update tmux
+  tags: tmux
+  community.general.homebrew:
+    name: tmux
+    state: present
+
+- name: install tmux plugin manager (tpm)
+  tags: tmux
+  git:
+    repo: https://github.com/tmux-plugins/tpm
+    dest: "{{ lookup('ansible.builtin.env', 'HOME') }}/.tmux/plugins/tpm"
+
+- name: ensure tmux config directory exists
+  tags: ['tmux_config', 'tmux']
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.config/tmux"
+    state: directory
+    mode: '0755'
+
+- name: sync tmux configuration files
+  tags: ['tmux_config', 'tmux']
+  copy:
+    src: tmux/
+    dest: "{{ lookup('env', 'HOME') }}/.config/tmux/"
+    mode: '0644'
+
+- name: ensure scripts directory exists
+  tags: ['tmux_config', 'tmux']
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.local/scripts"
+    state: directory
+    mode: '0755'
+
+- name: sync tmux-sessionizer
+  tags: ['tmux_config', 'tmux']
+  copy:
+    src: nav/
+    dest: "{{ lookup('env', 'HOME') }}/.local/scripts"
+    mode: preserve

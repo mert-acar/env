@@ -1,0 +1,21 @@
+---
+- name: Ensure yapf config directory does not exist (remove if present)
+  tags: 'yapf'
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.config/yapf"
+    state: absent
+
+- name: ensure yapf config directory exists
+  tags: 'yapf'
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.config/yapf"
+    state: directory
+    mode: '0755'
+
+- name: sync yapf configuration files
+  tags: 'yapf'
+  copy:
+    src: yapf/
+    dest: "{{ lookup('env', 'HOME') }}/.config/yapf/"
+    mode: '0644'
+

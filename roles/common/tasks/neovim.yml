@@ -1,0 +1,38 @@
+---
+- name: clone or update neovim
+  tags: neovim
+  git:
+    repo: https://github.com/neovim/neovim.git
+    dest: "{{ lookup('ansible.builtin.env', 'HOME') }}/personal/neovim"
+    single_branch: yes
+    version: v0.10.2
+    update: yes
+    force: no
+
+- name: make neovim
+  tags: neovim
+  make:
+    chdir: "{{ lookup('ansible.builtin.env', 'HOME') }}/personal/neovim" 
+    params:
+      CMAKE_BUILD_TYPE: "RelWithDebInfo"
+      
+- name: install neovim
+  tags: neovim
+  become: true
+  make:
+    target: install
+    chdir: "{{ lookup('ansible.builtin.env', 'HOME') }}/personal/neovim" 
+
+- name: ensure neovim config directory exists
+  tags: ['neovim_config', 'neovim']
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.config/nvim"
+    state: directory
+    mode: '0755'
+
+- name: sync neovim configuration files
+  tags: ['neovim_config', 'neovim']
+  copy:
+    src: nvim/
+    dest: "{{ lookup('env', 'HOME') }}/.config/nvim/"
+    mode: '0644'

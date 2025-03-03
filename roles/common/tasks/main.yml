@@ -1,0 +1,65 @@
+---
+- name: Install Common Packages (MacOS)
+  when: is_macos
+  community.general.homebrew:
+    name: "{{ common_packages }}"
+    update_homebrew: true
+    state: present
+    install_options: ["formula"]
+
+- name: Install NodeJS & Lua (MacOS)
+  when: is_macos
+  community.general.homebrew:
+    name: "{{ item }}"
+    update_homebrew: true
+    state: present
+    install_options: ["formula"]
+  loop:
+  - node
+  - lua
+  - yapf
+  - jupyterlab
+
+- name: Install NodeJS & Lua (Ubuntu)
+  when: is_ubuntu
+  community.general.homebrew:
+    update_cache: yes
+    autoclean: yes
+    autoremove: yes
+    pkg:
+    - nodejs
+    - lua5.3
+    - autotools-dev
+    - python3-yapf
+    - yapf3
+
+- name: Install Common Packages (Ubuntu)
+  become: true
+  when: is_ubuntu
+  apt:
+    update_cache: yes
+    autoclean: yes
+    autoremove: yes
+    pkg: "{{ common_packages }}"
+    
+- name: Install JupyterLab (Ubuntu)
+  when: is_ubuntu
+  pip:
+    name: jupyterlab
+    state: present
+
+- name: Include Neovim setup tasks
+  include_tasks: neovim.yml
+  tags: ['neovim', 'neovim_config']
+
+- name: Include tmux setup tasks
+  include_tasks: tmux.yml
+  tags: ['tmux', 'tmux_config']
+
+- name: Include yapf setup tasks
+  include_tasks: yapf.yml
+  tags: 'yapf'
+
+- name: Include zsh setup tasks
+  include_tasks: zsh.yml
+  tags: ['zsh', 'zsh_config']

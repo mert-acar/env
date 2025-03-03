@@ -1,0 +1,22 @@
+---
+- name: Install Aerospace
+  tags: 'aerospace'
+  community.general.homebrew:
+    name: nikitabobko/tap/aerospace
+    state: present
+    install_options: ["cask"]
+
+- name: ensure aerospace config directory exists
+  tags: ['aerospace', 'aerospace_config']
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.config/aerospace"
+    state: directory
+    mode: '0755'
+
+- name: sync aerospace configuration files
+  tags: ['aerospace', 'aerospace_config']
+  copy:
+    src: aerospace/
+    dest: "{{ lookup('env', 'HOME') }}/.config/aerospace/"
+    mode: '0644'
+
