@@ -11,8 +11,8 @@
       tags: ['always']
 
   roles:
-    - role: common  # Shared configurations (neovim, tmux, yapf)
     - role: macos
       when: is_macos
     - role: ubuntu
       when: is_ubuntu
+    - role: common  # Shared configurations (neovim, tmux, yapf)

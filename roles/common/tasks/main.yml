@@ -1,52 +1,39 @@
 ---
-- name: Install Common Packages (MacOS)
-  when: is_macos
-  community.general.homebrew:
-    name: "{{ common_packages }}"
-    update_homebrew: true
-    state: present
-    install_options: ["formula"]
+- name: Include zsh setup tasks
+  include_tasks: zsh.yml
+  tags: ['zsh', 'zsh_config']
 
-- name: Install NodeJS & Lua (MacOS)
-  when: is_macos
+
+- name: Install NodeJS & Lua
   community.general.homebrew:
     name: "{{ item }}"
     update_homebrew: true
     state: present
     install_options: ["formula"]
   loop:
+  - curl
+  - cmake
+  - gettext
+  - uv
+  - git
   - node
+  - btop
+  - ninja
   - lua
-  - yapf
   - jupyterlab
+  - ripgrep
 
-- name: Install NodeJS & Lua (Ubuntu)
-  when: is_ubuntu
-  community.general.homebrew:
-    update_cache: yes
-    autoclean: yes
-    autoremove: yes
-    pkg:
-    - nodejs
-    - lua5.3
-    - autotools-dev
-    - python3-yapf
-    - yapf3
+- name: Include fzf setup tasks
+  include_tasks: fzf.yml
+  tags: 'fzf'
 
-- name: Install Common Packages (Ubuntu)
-  become: true
-  when: is_ubuntu
-  apt:
-    update_cache: yes
-    autoclean: yes
-    autoremove: yes
-    pkg: "{{ common_packages }}"
-    
-- name: Install JupyterLab (Ubuntu)
-  when: is_ubuntu
-  pip:
-    name: jupyterlab
-    state: present
+- name: Include zoxide setup tasks
+  include_tasks: zoxide.yml
+  tags: 'zoxide'
+
+- name: Include eza setup tasks
+  include_tasks: eza.yml
+  tags: 'eza'
 
 - name: Include Neovim setup tasks
   include_tasks: neovim.yml
@@ -60,6 +47,7 @@
   include_tasks: yapf.yml
   tags: 'yapf'
 
-- name: Include zsh setup tasks
-  include_tasks: zsh.yml
-  tags: ['zsh', 'zsh_config']
+- name: Include black setup tasks
+  include_tasks: black.yml
+  tags: 'black'
+

@@ -3,15 +3,6 @@ export ZSH="$HOME/.oh-my-zsh"
 
 export TERM="xterm-ghostty"
 
-# OS-specific PATH configuration
-if [[ "$(uname)" == "Darwin" ]]; then
-    # MacOS specific PATH
-    export PATH="/opt/homebrew/bin:$PATH"
-elif [[ "$(uname)" == "Linux" ]]; then
-    # Ubuntu specific PATH
-    export PATH="/usr/local/sbin:/usr/sbin:/sbin:$PATH"
-fi
-
 export PATH="$PATH:$HOME/.local/scripts/"
 
 # Set theme
@@ -32,38 +23,13 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='nvim'
+  export EDITOR='vi'
 else
-  export EDITOR='nvim'
+  export EDITOR='vi'
 fi
-
-alias "cd"="z"
-alias "vi"="nvim"
-alias "lab"='jupyter lab'
-alias "b"="black --line-length=100 *.py"
-alias "yy"="yapf --in-place --recursive ."
 
 alias "a"="source .venv/bin/activate"
 alias "d"="deactivate"
-
 alias "gs"="git status"
 alias "gc"="pre-commit-gen-message"
-
-alias "ls"="eza --color=always --long --git --icons=always --no-user --no-permissions"
-alias "ll"="ls -la"
-alias "r"="ranger"
 alias "rr"="rm -rf __pycache__"
-#
-# Set up fzf key bindings and fuzzy completion
-eval "$(zoxide init zsh)"
-
-source <(fzf --zsh)
-fzf_vim_open() {
-  local file
-  file=$(fd --type f --hidden --exclude .git | fzf --preview 'bat --style=numbers --color=always {}')
-  if [[ -n "$file" ]]; then
-    vi "$file"
-  fi
-}
-zle -N fzf_vim_open
-bindkey '^S' fzf_vim_open

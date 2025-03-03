@@ -1,0 +1,9 @@
+---
+- name: Get curl
+  become: True
+  apt:
+    name: curl
+    state: present
+
+- name: Install Homebrew Package Manager
+  shell: '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'

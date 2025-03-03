@@ -1,0 +1,14 @@
+---
+- name: Install eza
+  community.general.homebrew:
+    name: eza
+    state: present
+
+- name: Add eza init
+  blockinfile:
+    path: "{{ lookup('env', 'HOME') }}/.zshrc"
+    block: |
+      alias "ls"="eza --color=always --long --git --icons=always --no-user --no-permissions"
+      alias "ll"="ls -la"
+    create: yes
+    marker: "# {mark} ANSIBLE MANAGED BLOCK eza"

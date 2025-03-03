@@ -1,15 +1,17 @@
 ---
-- name: clone or update tmux
+- name: install tmux 
   tags: tmux
   community.general.homebrew:
     name: tmux
+    update_homebrew: true
     state: present
+    install_options: ["formula"]
 
 - name: install tmux plugin manager (tpm)
   tags: tmux
   git:
     repo: https://github.com/tmux-plugins/tpm
-    dest: "{{ lookup('ansible.builtin.env', 'HOME') }}/.tmux/plugins/tpm"
+    dest: "{{ lookup('env', 'HOME') }}/.tmux/plugins/tpm"
 
 - name: ensure tmux config directory exists
   tags: ['tmux_config', 'tmux']

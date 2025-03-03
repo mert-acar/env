@@ -1,4 +1,18 @@
 ---
+- name: Install yapf
+  community.general.homebrew:
+    name: yapf
+    state: present
+
+- name: Add yapf alias
+  lineinfile:
+    path: "{{ lookup('env', 'HOME') }}/.zshrc"
+    line: 'alias "yy"="yapf --in-place --recursive ."'
+    state: present
+    create: yes
+    validate: "zsh -n %s"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK yapf"
+
 - name: Ensure yapf config directory does not exist (remove if present)
   tags: 'yapf'
   file:

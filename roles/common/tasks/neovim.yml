@@ -3,7 +3,7 @@
   tags: neovim
   git:
     repo: https://github.com/neovim/neovim.git
-    dest: "{{ lookup('ansible.builtin.env', 'HOME') }}/personal/neovim"
+    dest: "{{ lookup('env', 'HOME') }}/personal/neovim"
     single_branch: yes
     version: v0.10.2
     update: yes
@@ -12,16 +12,26 @@
 - name: make neovim
   tags: neovim
   make:
-    chdir: "{{ lookup('ansible.builtin.env', 'HOME') }}/personal/neovim" 
+    chdir: "{{ lookup('env', 'HOME') }}/personal/neovim" 
     params:
-      CMAKE_BUILD_TYPE: "RelWithDebInfo"
-      
+      CMAKE_BUILD_TYPE: "Release"
+
+- name: Add nvim alias
+  lineinfile:
+    path: "{{ lookup('env', 'HOME') }}/.zshrc"
+    line: 'alias "vi"="nvim"'
+    state: present
+    create: yes
+    validate: "zsh -n %s"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK neovim"
+
+
 - name: install neovim
   tags: neovim
   become: true
   make:
     target: install
-    chdir: "{{ lookup('ansible.builtin.env', 'HOME') }}/personal/neovim" 
+    chdir: "{{ lookup('env', 'HOME') }}/personal/neovim" 
 
 - name: ensure neovim config directory exists
   tags: ['neovim_config', 'neovim']

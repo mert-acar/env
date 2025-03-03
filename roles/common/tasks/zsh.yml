@@ -1,41 +1,66 @@
 ---
+- name: Install zsh
+  community.general.homebrew:
+    name: zsh
+    state: present
+
 - name: Change default shell to zsh
   tags: zsh
   become: true
-  ansible.builtin.user:
+  user:
     name: "{{ lookup('env', 'USER') }}"
     shell: /bin/zsh
 
 - name: Check if oh-my-zsh is installed
   tags: zsh
-  ansible.builtin.stat:
+  stat:
     path: "{{ lookup('env', 'HOME') }}/.oh-my-zsh"
   register: oh_my_zsh_installed
 
 - name: Install oh-my-zsh
   tags: zsh
-  ansible.builtin.shell:
+  shell:
     cmd: 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended'
   when: not oh_my_zsh_installed.stat.exists
 
 - name: Install zsh-syntax-highlighting
   tags: zsh
-  ansible.builtin.git:
+  git:
     repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
     dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
     update: yes
 
 - name: Install zsh-autosuggestions
   tags: zsh
-  ansible.builtin.git:
+  git:
     repo: https://github.com/zsh-users/zsh-autosuggestions.git
     dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
     update: yes
 
 - name: Copy zshrc configuration
   tags: zsh_config
-  ansible.builtin.copy:
+  copy:
     src: zshrc
     dest: "{{ lookup('env', 'HOME') }}/.zshrc"
     mode: '0644'
     backup: yes
+
+- name: Setup brew path
+  when: is_ubuntu
+  lineinfile:
+    path: "{{ lookup('env', 'HOME') }}/.zshrc"
+    line: 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
+    state: present
+    create: yes
+    validate: 'zsh -n %s'
+    marker: "# {mark} ANSIBLE MANAGED BLOCK homebrew"
+
+- name: Setup brew path
+  when: is_macos
+  lineinfile:
+    path: "{{ lookup('env', 'HOME') }}/.zshrc"
+    line: 'export PATH="/opt/homebrew/bin:$PATH"'
+    state: present
+    create: yes
+    validate: 'zsh -n %s'
+    marker: "# {mark} ANSIBLE MANAGED BLOCK homebrew"
