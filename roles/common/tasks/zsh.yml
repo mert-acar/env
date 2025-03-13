@@ -63,4 +63,4 @@
     state: present
     create: yes
     validate: 'zsh -n %s'
-    marker: "# {mark} ANSIBLE MANAGED BLOCK homebrew"
+    # marker: "# {mark} ANSIBLE MANAGED BLOCK homebrew"

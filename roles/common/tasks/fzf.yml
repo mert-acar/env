@@ -16,6 +16,7 @@
     - bat
 
 - name: Add fzf_vim_open function and source
+  tags: fzf
   blockinfile:
     path: "{{ lookup('env', 'HOME') }}/.zshrc"
     block: |

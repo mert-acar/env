@@ -1,10 +1,12 @@
 ---
 - name: Install zoxide
+  tags: zoxide
   community.general.homebrew:
     name: zoxide
     state: present
 
 - name: Add zoxide init
+  tags: zoxide
   blockinfile:
     path: "{{ lookup('env', 'HOME') }}/.zshrc"
     block: |
@@ -12,4 +14,3 @@
       alias "cd"="z"
     create: yes
     validate: "zsh -n %s"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK zoxide"

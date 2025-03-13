@@ -1,14 +1,15 @@
 ---
 - name: Install black
+  tags: black
   community.general.homebrew:
     name: black
     state: present
 
 - name: Add black alias
+  tags: black
   lineinfile:
     path: "{{ lookup('env', 'HOME') }}/.zshrc"
     line: 'alias "b"="black --line-length=100 *.py"'
     state: present
     create: yes
     validate: "zsh -n %s"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK black"

@@ -16,22 +16,22 @@
     params:
       CMAKE_BUILD_TYPE: "Release"
 
-- name: Add nvim alias
-  lineinfile:
-    path: "{{ lookup('env', 'HOME') }}/.zshrc"
-    line: 'alias "vi"="nvim"'
-    state: present
-    create: yes
-    validate: "zsh -n %s"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK neovim"
-
-
 - name: install neovim
   tags: neovim
   become: true
   make:
     target: install
     chdir: "{{ lookup('env', 'HOME') }}/personal/neovim" 
+
+- name: Add nvim alias
+  tags: neovim_config
+  lineinfile:
+    path: "{{ lookup('env', 'HOME') }}/.zshrc"
+    line: 'alias "vi"="nvim"'
+    state: present
+    create: yes
+    validate: "zsh -n %s"
+
 
 - name: ensure neovim config directory exists
   tags: ['neovim_config', 'neovim']

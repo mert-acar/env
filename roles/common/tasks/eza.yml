@@ -1,10 +1,12 @@
 ---
 - name: Install eza
+  tags: eza
   community.general.homebrew:
     name: eza
     state: present
 
 - name: Add eza init
+  tags: eza
   blockinfile:
     path: "{{ lookup('env', 'HOME') }}/.zshrc"
     block: |
