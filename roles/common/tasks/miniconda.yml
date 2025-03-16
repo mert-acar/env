@@ -57,3 +57,13 @@
     source {{ ansible_env.HOME }}/personal/miniconda3/bin/activate
     conda init --all
     conda config --set auto_activate_base false
+
+- name: Add conda alias
+  tags: conda
+  blockinfile:
+    path: "{{ lookup('env', 'HOME') }}/.zshrc"
+    block: |
+      alias "ac"="conda activate"
+      alias "dc"="conda deactivate"
+    create: yes
+    validate: "zsh -n %s"
