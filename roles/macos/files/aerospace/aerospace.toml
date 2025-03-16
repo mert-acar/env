@@ -129,6 +129,8 @@ automatically-unhide-macos-hidden-apps = false
     alt-9 = 'workspace 9'
     alt-a = 'workspace term'
     alt-m = 'workspace music'
+    alt-o = 'workspace obsidian'
+    alt-w = 'workspace firefox'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
     alt-shift-1 = ['move-node-to-workspace 1', 'workspace 1'] 
@@ -142,6 +144,8 @@ automatically-unhide-macos-hidden-apps = false
     alt-shift-9 = ['move-node-to-workspace 9', 'workspace 9']
     alt-shift-a = ['move-node-to-workspace term', 'workspace term']
     alt-shift-m = ['move-node-to-workspace music', 'workspace music']
+    alt-shift-o = ['move-node-to-workspace obsidian', 'workspace obsidian']
+    alt-shift-w = ['move-node-to-workspace firefox', 'workspace firefox']
 
     alt-shift-f = 'fullscreen'
 
@@ -174,6 +178,14 @@ automatically-unhide-macos-hidden-apps = false
     shift-down = ['volume set 0', 'mode main']
 
 [[on-window-detected]]
+if.app-id = 'org.mozilla.firefox'
+run = 'move-node-to-workspace firefox'
+
+[[on-window-detected]]
+if.app-id = 'md.obsidian'
+run = 'move-node-to-workspace obsidian'
+
+[[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
 run = 'move-node-to-workspace term'
 
@@ -194,6 +206,5 @@ if.app-id = 'com.apple.MobileSMS'
 run = 'layout floating'
 
 [[on-window-detected]]
-# if.app-id = 'NULL-APP-BUNDLE-ID'
 if.window-title-regex-substring = 'Figure'
 run = 'layout floating'
