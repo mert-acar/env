@@ -1,0 +1,49 @@
+---
+- name: Install Miniconda
+  tags: conda
+  hosts: localhost
+  gather_facts: false
+  vars:
+    miniconda_dir: "{{ ansible_env.HOME }}/personal/miniconda3"
+    miniconda_script: "{{ miniconda_dir }}/miniconda.sh"
+    miniconda_url: >-
+      {{ 'https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh' if is_macos else
+         'https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh' if is_ubuntu else '' }}
+
+  tasks:
+    - name: Ensure Miniconda directory exists
+      tags: conda
+      file:
+        path: "{{ miniconda_dir }}"
+        state: directory
+        mode: "0755"
+
+    - name: Fail if OS is unsupported
+      fail:
+        msg: "Unsupported OS for Miniconda installation"
+      when: miniconda_url == ""
+
+    - name: Download Miniconda install script
+      tags: conda
+      get_url:
+        url: "{{ miniconda_url }}"
+        dest: "{{ miniconda_script }}"
+        mode: "0755"
+
+    - name: Run Miniconda installer
+      tags: conda
+      command:
+        cmd: "bash {{ miniconda_script }} -b -u -p {{ miniconda_dir }}"
+      args:
+        creates: "{{ miniconda_dir }}/bin/conda"
+
+    - name: Remove Miniconda installer script
+      file:
+        path: "{{ miniconda_script }}"
+        state: absent
+
+    - name: Init conda
+      shell: |
+        source {{ miniconda_dir }}/bin/activate
+        conda init --all
+        conda config --set auto_activate_base false
