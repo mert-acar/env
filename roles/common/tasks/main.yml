@@ -4,7 +4,7 @@
   tags: ['zsh', 'zsh_config']
 
 
-- name: Install NodeJS & Lua
+- name: Install common libraries
   community.general.homebrew:
     name: "{{ item }}"
     update_homebrew: true
