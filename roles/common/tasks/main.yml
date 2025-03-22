@@ -14,7 +14,6 @@
   - curl
   - cmake
   - gettext
-  - uv
   - git
   - node
   - btop
@@ -55,6 +54,6 @@
   include_tasks: ghostty.yml
   tags: ['ghostty', 'ghostty_config']
 
-- name: Include miniconda setup tasks
-  include_tasks: miniconda.yml
-  tags: 'conda'
+- name: Include uv setup tasks
+  include_tasks: uv.yml
+  tags: 'uv'

@@ -1,0 +1,31 @@
+---
+- name: Set uv directory
+  tags: uv
+  set_fact:
+    miniconda_dir: "{{ ansible_env.HOME }}/personal/uv"
+
+- name: Ensure uv directory exists
+  tags: uv
+  file:
+    path: "{{ ansible_env.HOME }}/personal/uv"
+    state: directory
+    mode: "0755"
+
+- name: Install uv
+  tags: uv
+  community.general.homebrew:
+    name: uv
+    state: present
+
+- name: Add uv activation function
+  tags: uv
+  blockinfile:
+    path: "{{ lookup('env', 'HOME') }}/.zshrc"
+    block: |
+      function uvactivate() {
+          source ~/personal/uv/$1/bin/activate
+      }
+      alias "ac"="uvactivate"
+      alias "dc"="deactivate"
+    create: yes
+    validate: "zsh -n %s"
