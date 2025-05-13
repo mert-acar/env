@@ -7,6 +7,7 @@
     - name: Detect OS
       set_fact:
         is_macos: "{{ ansible_facts['os_family'] == 'Darwin' }}"
+        is_arch: "{{ ansible_facts['distribution'] == 'Archlinux' }}"
         is_ubuntu: "{{ ansible_facts['distribution'] == 'Ubuntu' }}"
       tags: ['always']
 
@@ -14,7 +15,7 @@
     - role: macos
       when: is_macos
       tags: macos
-    - role: ubuntu
-      when: is_ubuntu
-      tags: ubuntu
-    - role: common  # Shared configurations (neovim, tmux, yapf)
+    - role: linux
+      when: is_arch or is_ubuntu
+      tags: ['arch', 'ubuntu']
+    - role: common  # Shared configurations (neovim, tmux)

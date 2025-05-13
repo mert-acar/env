@@ -23,7 +23,7 @@ return {
         require("fidget").setup({})
         require("mason").setup()
         require("mason-lspconfig").setup({
-            ensure_installed = { "lua_ls", "vimls", "pyright" },
+            ensure_installed = { "lua_ls", "vimls", "pyright", "ruff"},
             automatic_installation = false,
             handlers = {
                 function(server_name)

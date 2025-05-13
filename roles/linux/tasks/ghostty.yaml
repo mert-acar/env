@@ -1,0 +1,14 @@
+---
+- name: install ghostty
+  tags: ghostty
+  when: is_arch
+  pacman:
+    name: ghostty
+    state: present
+
+- name: install ghostty
+  tags: ghostty
+  when: is_ubuntu
+  apt:
+    name: ghostty
+    state: present

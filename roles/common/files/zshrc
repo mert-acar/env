@@ -29,5 +29,4 @@ else
 fi
 
 alias "gs"="git status"
-alias "gc"="pre-commit-gen-message"
 alias "rr"="rm -rf __pycache__"

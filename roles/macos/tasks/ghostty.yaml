@@ -1,0 +1,6 @@
+---
+- name: install ghostty
+  ansible.builtin.shell: brew install --cask ghostty
+  tags: 'ghostty'
+  args:
+    executable: /bin/zsh

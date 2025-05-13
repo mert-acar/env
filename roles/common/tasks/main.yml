@@ -1,9 +1,4 @@
 ---
-- name: Include zsh setup tasks
-  include_tasks: zsh.yml
-  tags: ['zsh', 'zsh_config']
-
-
 - name: Install common libraries
   community.general.homebrew:
     name: "{{ item }}"
@@ -11,7 +6,6 @@
     state: present
     install_options: ["formula"]
   loop:
-  - curl
   - cmake
   - gettext
   - git
@@ -21,6 +15,11 @@
   - lua
   - jupyterlab
   - ripgrep
+  - uv
+
+- name: Include zsh setup tasks
+  include_tasks: zsh.yml
+  tags: ['zsh', 'zsh_config']
 
 - name: Include fzf setup tasks
   include_tasks: fzf.yml
@@ -34,7 +33,7 @@
   include_tasks: eza.yml
   tags: 'eza'
 
-- name: Include Neovim setup tasks
+- name: Include neovim setup tasks
   include_tasks: neovim.yml
   tags: ['neovim', 'neovim_config']
 
@@ -42,18 +41,10 @@
   include_tasks: tmux.yml
   tags: ['tmux', 'tmux_config']
 
-- name: Include yapf setup tasks
-  include_tasks: yapf.yml
-  tags: 'yapf'
-
 - name: Include black setup tasks
   include_tasks: black.yml
   tags: 'black'
 
 - name: Include ghostty setup tasks
   include_tasks: ghostty.yml
-  tags: ['ghostty', 'ghostty_config']
-
-- name: Include uv setup tasks
-  include_tasks: uv.yml
-  tags: 'uv'
+  tags: ['ghostty_config']

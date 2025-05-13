@@ -9,7 +9,7 @@
   become: true
   user:
     name: "{{ lookup('env', 'USER') }}"
-    shell: /bin/zsh
+    shell: "{{ lookup('env', 'HOMEBREW_PREFIX') }}/bin/zsh"
 
 - name: Check if oh-my-zsh is installed
   tags: zsh
@@ -46,14 +46,13 @@
     backup: yes
 
 - name: Setup brew path
-  when: is_ubuntu
+  when: is_ubuntu or is_arch
   lineinfile:
     path: "{{ lookup('env', 'HOME') }}/.zshrc"
     line: 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
     state: present
     create: yes
     validate: 'zsh -n %s'
-    marker: "# {mark} ANSIBLE MANAGED BLOCK homebrew"
 
 - name: Setup brew path
   when: is_macos
@@ -63,4 +62,3 @@
     state: present
     create: yes
     validate: 'zsh -n %s'
-    # marker: "# {mark} ANSIBLE MANAGED BLOCK homebrew"

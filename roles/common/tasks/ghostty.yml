@@ -1,10 +1,4 @@
 ---
-- name: install ghostty
-  tags: ghostty
-  community.general.homebrew_cask:
-    name: ghostty
-    state: present
-
 - name: ensure ghostty config directory exists
   tags: ['ghostty', 'ghostty_config']
   file:
@@ -18,4 +12,3 @@
     src: ghostty/
     dest: "{{ lookup('env', 'HOME') }}/.config/ghostty/"
     mode: '0644'
-

@@ -1,27 +1,11 @@
 ---
-- name: clone or update neovim
-  tags: neovim
-  git:
-    repo: https://github.com/neovim/neovim.git
-    dest: "{{ lookup('env', 'HOME') }}/personal/neovim"
-    single_branch: yes
-    version: v0.10.2
-    update: yes
-    force: no
-
-- name: make neovim
-  tags: neovim
-  make:
-    chdir: "{{ lookup('env', 'HOME') }}/personal/neovim" 
-    params:
-      CMAKE_BUILD_TYPE: "Release"
-
 - name: install neovim
   tags: neovim
-  become: true
-  make:
-    target: install
-    chdir: "{{ lookup('env', 'HOME') }}/personal/neovim" 
+  community.general.homebrew:
+    name: "neovim"
+    update_homebrew: true
+    state: present
+    install_options: ["formula"]
 
 - name: Add nvim alias
   tags: neovim_config

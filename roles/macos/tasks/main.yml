@@ -2,6 +2,10 @@
 - name: Window moving trick
   shell: "defaults write -g NSWindowShouldDragOnGesture -bool true"
 
+- name: Include Ghostty setup tasks
+  include_tasks: ghostty.yml
+  tags: 'ghostty'
+
 - name: Include Aerospace setup tasks
   include_tasks: aerospace.yml
   tags: ['aerospace', 'aerospace_config']

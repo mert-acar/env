@@ -1,0 +1,4 @@
+---
+- name: Include ghostty setup tasks
+  include_tasks: ghostty.yml
+  tags: 'ghostty'
